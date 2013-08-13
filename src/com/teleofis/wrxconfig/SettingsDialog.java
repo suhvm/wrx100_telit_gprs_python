@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 import com.teleofis.wrxconfig.transport.SerialParameters;
+import org.eclipse.swt.widgets.Button;
 
 public class SettingsDialog extends Dialog {
 	private Label label;
@@ -24,6 +25,8 @@ public class SettingsDialog extends Dialog {
 	private Combo comboBaudrate;
 	
 	private SerialParameters serialParameters;
+	private Label label_2;
+	private Button buttonHwfc;
 	
 //	private String workDirectory;
 
@@ -63,6 +66,11 @@ public class SettingsDialog extends Dialog {
 		} catch (Exception e) {
 		}
 		
+		label_2 = new Label(container, SWT.NONE);
+		label_2.setText("Аппаратный контроль потока");
+			
+		buttonHwfc = new Button(container, SWT.CHECK);
+		
 		fillComboPort();
 
 		return container;
@@ -93,7 +101,9 @@ public class SettingsDialog extends Dialog {
 		String baudrate = comboBaudrate.getText();
 		
 		if(port != null && port != "") {
-			serialParameters = new SerialParameters(port, Integer.parseInt(baudrate), SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE, true);
+			serialParameters = new SerialParameters(port, Integer.parseInt(baudrate), 
+					SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE, 
+					buttonHwfc.getSelection());
 		}
 		
 		super.okPressed();
